@@ -1,15 +1,30 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from "@nestjs/common";
 import { User } from "src/schemas/user.schema";
 import { UsersService } from "src/services/users.service";
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
 
     constructor(private readonly usersService: UsersService) { }
 
-    @Post()
-    async createBook(@Res() response, @Body() user: User) {
+    @Post('/register')
+    async createUser(@Res() response, @Body() user: User) {
+        if (user.password !== user.confirmpassword) {
+            return response.status(HttpStatus.BAD_REQUEST).json({
+                status: false,
+                message: "Password Mismatch",
+        
+            })
+        }
+        
+        delete user.confirmpassword;
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        
+        user.email = user.email.toLowerCase();
+        user.password = hashedPassword;
         const createUser = await this.usersService.createUser(user);
+        //console.log(createUser)
         return response.status(HttpStatus.CREATED).json({
             status: true,
             message: "User registered successfully",

@@ -9,7 +9,9 @@ export class UsersService {
 
 
     async createUser(user: User): Promise<User> {
+        const userExist = await this.userModel.findOne({ });
         const createUser = new this.userModel(user);
         return createUser.save();
     }
+    
 }

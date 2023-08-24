@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserDocument } from '../../../schemas/user.schema';
+import { User, UserDocument } from '../../schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ForgotPasswordDto } from '../../dto/forgetPassword.dto'
-import { EmailService } from '../../../../utils/email/email.service'
+import { ForgotPasswordDto } from '../dto/forgetPassword.dto'
+import { EmailService } from '../../../utils/email/email.service'
 @Injectable()
 export class ForgotPasswordService {
   constructor(@InjectModel(User.name)
@@ -15,10 +15,9 @@ export class ForgotPasswordService {
   async sendPasswordResetEmail(ForgotPasswordDto: ForgotPasswordDto): Promise<any> {
     const { email } = ForgotPasswordDto;
     const user = await this.userModel.findOne({ email });
-    if (!user) { 
+    if (!user) {
       throw new UnauthorizedException('User is not exist ');
     }
-
     const resetToken = this.jwtService.sign({ id: user._id });
 
     const resetLink = `http://localhost:4200/auth/createpasswors/${resetToken}`;
@@ -60,7 +59,6 @@ export class ForgotPasswordService {
       throw new UnauthorizedException('Invalid token');
     }
     user.password = newPassword;
-    user.resetToken = null;
     await user.save();
   }
 }

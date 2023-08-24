@@ -19,12 +19,7 @@ export class User {
     password: string;
 
     @Prop()
-    confirmpassword: string;
-
-    @Prop()
-    resetToken: string;
-
-    
+    confirmpassword: string;   
 
 }
 

@@ -3,15 +3,16 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { AuthController } from './controller/login/auth.controller';
-import { AuthService } from './services/login/auth.service';
-import { JwtStrategy } from './jwt.strategy';
+import { AuthController } from './controller/auth.controller';
+import { AuthService } from './services/auth.service';
+import { JwtStrategy } from '../../utils/Token/jwt.strategy';
 import { UserSchema } from '../schemas/user.schema';
-import { ForgotPasswordController } from './controller/Forgot-password/Forgot-password.controller';
-import { ForgotPasswordService } from './services/Forgot-password/Forgot-password.service'
+
+import { ForgotPasswordController } from './controller/forgot-password.controller';
+import { ForgotPasswordService } from './services/forgot-password.service'
 import { EmailService } from 'utils/email/email.service';
-import { ResetPasswordService } from './services/reset-password/reset-password.service';
-import { ResetPasswordController } from './controller/reset-password/reset-password.controller';
+import { ResetPasswordService } from './services/reset-password.service';
+import { ResetPasswordController } from './controller/reset-password.controller';
 
 @Module({
   imports: [

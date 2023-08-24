@@ -1,23 +1,27 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { User, UserSchema } from './schemas/user.schema';
-import { UsersService } from './services/users.service';
-import { UsersController } from './controllers/users.controller';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { EmailService } from 'utils/email/email.service';
+import { SaloonModule } from './saloon/saloon.module';
+import { UserModule } from './user/user.module'
+import { MulterModule } from '@nestjs/platform-express';
+import { FileUploadService } from '../utils/file-upload/file-upload.service';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ 
+    ConfigModule.forRoot({
       envFilePath: '.env',
-    isGlobal: true,}),
+      isGlobal: true,
+    }),
     MongooseModule.forRoot('mongodb+srv://mukutprasad1992:UBEIMYRArEJCYTmK@cluster1.xhgrbkb.mongodb.net/citybarberdb'),
-  MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  AuthModule],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService,EmailService],
+    MulterModule.register({
+      dest: './uploads', // Destination folder for storing uploaded files
+    }),
+    AuthModule,
+    SaloonModule,
+    UserModule],
+  controllers: [],
+  providers: [FileUploadService],
 })
 export class AppModule { }

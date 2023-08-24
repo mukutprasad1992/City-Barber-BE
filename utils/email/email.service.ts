@@ -7,7 +7,6 @@ export class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      // Configure your email provider here
       service: 'Gmail',
       auth: {
         user: '0173ec191025@gmail.com',

@@ -17,10 +17,10 @@ export class UsersController {
             })
         }
         delete user.confirmpassword;
-        // const hashedPassword = await bcrypt.hash(user.password, 10);
+        const hashedPassword = await bcrypt.hash(user.password, 10);
 
         user.email = user.email.toLowerCase();
-        // user.password = hashedPassword;
+        user.password = hashedPassword;
         const createUser = await this.usersService.createUser(user);
         return response.status(HttpStatus.CREATED).json({
             status: true,

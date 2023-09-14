@@ -70,54 +70,92 @@ export class SaloonController {
 
 
     }
-    @Get('/getUserByEmail')
-    async getUserById(@Res() response, @Body() user: Saloon) {
+    @Get('/userById:userId')
+    async findUserById(@Param('userId') userId: string, @Res() response): Promise<any> {
         try {
-            const User = await this.saloonService.getUserByEmail(user);
-            console.info('User:', User)
-            return response.status(HttpStatus.CREATED).json({
-                status: true,
-                message: "Fetch all Users successfully",
-                data: User
-            })
-
-        }
-        catch (error) {
-            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-                status: false,
-                message: "Error creating user",
-                error: error.message
-            });
-
-        }
-
-
-    }
-    @Delete('/deleteUserByEmail')
-    async deleteUser(@Res() response, @Body() user: Saloon) {
-        try {
-
-            const deletedUser = await this.saloonService.deleteUser(user._id);
-            if (!deletedUser) {
-                return await response.status(HttpStatus.NOT_FOUND).json({
-                    status: false,
-                    message: "User not found",
-                    data: null
-                });
-            }
-
+            const findBarberById = await this.saloonService.findOneBarber(userId)
             return response.status(HttpStatus.OK).json({
                 status: true,
-                message: "User deleted successfully",
-                data: deletedUser
-            });
+                message: 'succesfully get user by id',
+                data: findBarberById,
+            })
         } catch (error) {
-            return await response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 status: false,
-                message: "Error deleting user",
+                message: "Error in getting user by id",
                 error: error.message
             });
 
         }
     }
+    // @Get('/getUserByEmail')
+    // async getUserById(@Res() response, @Body() user: Saloon) {
+    //     try {
+    //         const User = await this.saloonService.getUserByEmail(user);
+    //         console.info('User:', User)
+    //         return response.status(HttpStatus.CREATED).json({
+    //             status: true,
+    //             message: "Fetch all Users successfully",
+    //             data: User
+    //         })
+
+    //     }
+    //     catch (error) {
+    //         return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //             status: false,
+    //             message: "Error creating user",
+    //             error: error.message
+    //         });
+
+    //     }
+    // }
+
+    // @Delete('/deleteUserByEmail')
+    // async deleteUser(@Res() response, @Body() user: Saloon) {
+    //     try {
+
+    //         const deletedUser = await this.saloonService.deleteUser(user._id);
+    //         if (!deletedUser) {
+    //             return await response.status(HttpStatus.NOT_FOUND).json({
+    //                 status: false,
+    //                 message: "User not found",
+    //                 data: null
+    //             });
+    //         }
+
+    //         return response.status(HttpStatus.OK).json({
+    //             status: true,
+    //             message: "User deleted successfully",
+    //             data: deletedUser
+    //         });
+    //     } catch (error) {
+    //         return await response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //             status: false,
+    //             message: "Error deleting user",
+    //             error: error.message
+    //         });
+
+    //     }
+    // }
+
+    @Delete('/:userId')
+    async deleteUserById(@Param('userId') userId: string, @Res() response): Promise<any> {
+        try {
+            const deleteUserById = await this.saloonService.deleteUserById(userId)
+            return response.status(HttpStatus.OK).json({
+                status: true,
+                message: 'succesfully deleted user by id',
+                data: [],
+            })
+        } catch (error) {
+            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: false,
+                message: "Error in deleted user by id",
+                error: error.message
+            });
+
+        }
+    }
+
+
 }

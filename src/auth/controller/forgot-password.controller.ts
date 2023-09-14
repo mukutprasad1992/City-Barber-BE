@@ -19,5 +19,5 @@ export class ForgotPasswordController {
     @Body('newPassword') newPassword: string,
   ): Promise<any> {
     return await this.forgotPasswordService.resetPassword(token, newPassword);
-  }
+  } 
 }

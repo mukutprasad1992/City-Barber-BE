@@ -6,10 +6,6 @@ import { SaloonModule } from './saloon/saloon.module';
 import { UserModule } from './user/user.module'
 import { MulterModule } from '@nestjs/platform-express';
 import { FileUploadService } from '../utils/file-upload/file-upload.service';
-import { CityModule } from './master/city.module';
-import { StateModule } from './master/state.module';
-import { StaffsModule } from './staffs/staffs.module';
-import { ServicesModule } from './saloonServices/Services.module';
 
 
 @Module({
@@ -22,12 +18,8 @@ import { ServicesModule } from './saloonServices/Services.module';
     MulterModule.register({
       dest: './uploads', // Destination folder for storing uploaded files
     }),
-    CityModule,
-    StateModule,
     AuthModule,
     SaloonModule,
-    ServicesModule,
-    StaffsModule,
     UserModule],
   controllers: [],
   providers: [FileUploadService],

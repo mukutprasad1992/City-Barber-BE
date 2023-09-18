@@ -32,20 +32,27 @@ export class SaloonService {
         return await this.saloonModel.findOne({ email: email });
 
     }
-    async deleteUser(id: any): Promise<any> {
-        console.info("id", id)
-        const userExist = this.saloonModel.findByIdAndDelete(id);
-        console.info("userExist: ", userExist)
-        if (!userExist) {
-            return response.json({
-                status: false,
-                message: "User is not Exist",
-            })
-        }
-        return response.json({
-            status: true,
-            message: "User is Deleted Succesfully",
-        })
 
+    async findOneBarber(barberid: string): Promise<any> {
+        return await this.saloonModel.findById(barberid);
+      }
+    // async deleteUser(id: any): Promise<any> {
+    //     console.info("id", id)
+    //     const userExist = this.saloonModel.findByIdAndDelete(id);
+    //     console.info("userExist: ", userExist)
+    //     if (!userExist) {
+    //         return response.json({
+    //             status: false,
+    //             message: "User is not Exist",
+    //         })
+    //     }
+    //     return response.json({
+    //         status: true,
+    //         message: "User is Deleted Succesfully",
+    //     })
+
+    // }
+    async deleteUserById(userid: string): Promise<any>{
+        return await this.saloonModel.findByIdAndDelete(userid)
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Body } from '@nestjs/common';
+import { Controller, Param, Post, Body, Res, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { ForgotPasswordService } from '../services/forgot-password.service'
 import { ForgotPasswordDto } from '../dto/forgetPassword.dto';
 
@@ -13,11 +13,27 @@ export class ForgotPasswordController {
     return this.forgotPasswordService.sendPasswordResetEmail(ForgotPasswordDto);
   }
 
-  @Post('/forgot-password/:token')
+  @Post('/resetNewPassword')
   async ForgotPassword(
-    @Param('token') token: string,
+    @Body('token') token: string,
     @Body('newPassword') newPassword: string,
+    @Body('confirmpassword') confirmPassword: string,
   ): Promise<any> {
-    return await this.forgotPasswordService.resetPassword(token, newPassword);
-  } 
+    try {
+      if (confirmPassword !== newPassword) {
+        throw new UnauthorizedException('Password mismatch');
+      }
+
+      return await this.forgotPasswordService.resetPassword(token, newPassword);
+    } catch (error) {
+      // Handle the error based on its type
+      if (error instanceof UnauthorizedException) {
+        throw error; // Re-throw the UnauthorizedException as-is
+      } else {
+        // Handle other types of errors (e.g., log the error and throw a generic error)
+        console.error('An unexpected error occurred:', error);
+        throw new UnauthorizedException('An unexpected error occurred');
+      }
+    } 
+}
 }

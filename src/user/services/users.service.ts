@@ -13,5 +13,24 @@ export class UsersService {
         }
         const createUser = new this.userModel(user);
         return createUser.save();
-    }    
+    }  
+    
+    async findAll(): Promise<any>  {
+        return this.userModel.find()
+      }
+
+      async deleteUser(userid: string): Promise<User> {
+        const deleteUserById = await this.userModel.findByIdAndDelete(userid).exec();
+        return deleteUserById
+      }
+
+      async findOne(userid: string): Promise<User> {
+        return await this.userModel.findById(userid).exec();
+      }
+
+      async update(userId: string, updateUser: User): Promise<User> {
+        await this.userModel.findByIdAndUpdate(userId, updateUser).exec();
+        const UpdateCity = await this.userModel.findByIdAndUpdate(userId, updateUser).exec();
+        return UpdateCity
+      }
 }

@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ForgotPasswordDto } from '../dto/forgetPassword.dto'
 import { EmailService } from '../../../utils/email/email.service'
+import * as bcrypt from "bcrypt"
+import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class ForgotPasswordService {
   constructor(@InjectModel(User.name)
@@ -52,13 +54,26 @@ export class ForgotPasswordService {
       return { message: 'Failed to send email' };
     }
   }
-  async resetPassword(resetToken: string, newPassword: string): Promise<void> {
-    const user = await this.userModel.findOne({ resetToken });
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid token');
+
+ 
+  async resetPassword(resetToken: string, newPassword: string): Promise<any> {
+    try {
+      const decodedToken = await this.jwtService.verify(resetToken);
+      const userId = decodedToken.id;
+      const user = await this.userModel.findById(userId);
+
+      if (!user) {
+        throw new UnauthorizedException('Invalid token');
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+      return { message: 'Password change successfully' };
+
+    } catch (error) {
+      throw new UnauthorizedException(error);
     }
-    user.password = newPassword;
-    await user.save();
   }
 }
+

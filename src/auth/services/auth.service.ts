@@ -17,6 +17,7 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
+    try{
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -31,10 +32,13 @@ export class AuthService {
 
     const token = this.jwtService.sign({ id: user._id });
     const finalUser = user;
-    console.log(finalUser)
     delete finalUser.password
-    console.log(finalUser)
     const result:any={token:token,finalUser:finalUser}
     return result;
+  
+ } catch (error) {
+    // Catch any errors and throw a standardized exception
+    throw new UnauthorizedException('Login faild',' '+ error);
   }
+}
 }

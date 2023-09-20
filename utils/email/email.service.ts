@@ -9,15 +9,15 @@ export class EmailService {
     this.transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: '0173ec191025@gmail.com',
-        pass: 'tditvfmqhepoemfh',
+        user: 'arbazkhan22199@gmail.com',
+        pass: 'ayibvbzsrnxqavdi',
       },
     });
   }
 
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
     const mailOptions: nodemailer.SendMailOptions = {
-      from: '0173ec191025@gmail.com',
+      from: 'arbazkhan22199@gmail.com',
       to,
       subject,
       html,

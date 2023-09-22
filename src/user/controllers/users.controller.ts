@@ -43,7 +43,7 @@ export class UsersController {
     async findAllUsers(@Res() response): Promise<any> {
         try {
             const findAllUsers = await this.usersService.findAll();
-            return response.status(HttpStatus.CREATED).json({
+            return response.status(HttpStatus.OK).json({
                 status: true,
                 message: "List of all users ",
                 data: findAllUsers
@@ -63,7 +63,7 @@ export class UsersController {
     async deleteUserById(@Param('userId') userId: string, @Res() Response) {
         try {
             const deleteUserById = await this.usersService.deleteUser(userId);
-            return Response.status(HttpStatus.CREATED).json({
+            return Response.status(HttpStatus.OK).json({
                 status: true,
                 message: "User deleted successfully",
                 data: {}

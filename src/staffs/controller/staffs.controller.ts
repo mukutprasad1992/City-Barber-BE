@@ -11,23 +11,41 @@ export class StaffsController {
 
     @Post('/create')
     async createStaffs(@Res() response, @Body() staffs: Staffs) {
+        try {
         const createStaffs = await this.staffsService.createStaffs(staffs);
         return response.status(HttpStatus.CREATED).json({
             status: true,
             message: "Staffs entered successfully",
             data: createStaffs
         })
+    }catch (error) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in creating staff",
+            error: error.message
+        });
+
     }
+}
 
     @Get('/getAll')
     async getAllStaffs(@Res() response) {
+        try{
         const getAllStaffs = await this.staffsService.getAllStaffs();
-        return response.status(HttpStatus.CREATED).json({
+        return response.status(HttpStatus.OK).json({
             status: true,
             message: "List of all staffs ",
             data: getAllStaffs
         })
+    }catch (error) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in getting all staffs",
+            error: error.message
+        });
+
     }
+}
 
     @Get('/staffsID:staffsID')
     async cityById(@Param('staffsID') staffsID: string, @Res() Response) {
@@ -50,14 +68,23 @@ export class StaffsController {
 
     @Delete(':staffsId')
     async deleteStaffsById(@Param('staffsId') staffsId: string, @Res() Response) {
+        try{
         const deleteStaffsById = await this.staffsService.deleteStaffsById(staffsId);
-        return Response.status(HttpStatus.CREATED).json({
+        return Response.status(HttpStatus.OK).json({
             status: true,
             message: "Staffs deleted successfully",
             data: {}
         })
 
+    }catch (error) {
+        return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in deleting staffs by id",
+            error: error.message
+        });
+
     }
+}
 
     @Put(':staffsId')
     async putStaffsById(@Param('staffsId') staffsId: string, @Body() updateStaffs: Staffs, @Res() Response) {

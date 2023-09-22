@@ -10,23 +10,41 @@ export class ServicesController {
 
     @Post('/create')
     async createServices(@Res() response, @Body() services: Services) {
+        try{
         const createServices = await this.saloonServices.createServices(services);
         return response.status(HttpStatus.CREATED).json({
             status: true,
             message: "State entered successfully",
             data: createServices
         })
+    }catch (error) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in creating service",
+            error: error.message
+        });
+
     }
+}
 
     @Get('/getAll')
     async getAllServices(@Res() response) {
+        try{
         const getAllServices = await this.saloonServices.getAllServices();
-        return response.status(HttpStatus.CREATED).json({
+        return response.status(HttpStatus.OK).json({
             status: true,
             message: "List of all services ",
             data: getAllServices
         })
+    }catch (error) {
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in get all services",
+            error: error.message
+        });
+
     }
+}
 
     @Get('/serviceID:serviceId')
     async cityServiceId(@Param('serviceId') serviceId: string, @Res() Response) {
@@ -49,14 +67,23 @@ export class ServicesController {
 
     @Delete(':serviceId')
     async deleteServiceById(@Param('serviceId') serviceId: string, @Res() Response) {
+        try{
         const deleteServiceById = await this.saloonServices.deleteService(serviceId);
-        return Response.status(HttpStatus.CREATED).json({
+        return Response.status(HttpStatus.OK).json({
             status: true,
             message: "Service deleted successfully",
             data: {}
         })
 
+    }catch (error) {
+        return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            status: false,
+            message: "Error in deleting service by id",
+            error: error.message
+        });
+
     }
+}
 
     @Put(':serviceId')
     async putStateById(@Param('serviceId') serviceId: string, @Body() updateService: Services, @Res() Response) {

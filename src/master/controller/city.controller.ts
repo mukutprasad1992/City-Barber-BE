@@ -7,7 +7,7 @@ export class CityController {
 
     constructor(private readonly cityService: CityService) { }
 
- 
+
     @Post('/create')
     async createCity(@Res() response, @Body() city: City) {
         try {
@@ -22,7 +22,7 @@ export class CityController {
         catch (error) {
             return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                 status: false,
-                message: "Error creating state",
+                message: "Error creating city",
                 error: error.message
             });
 
@@ -74,7 +74,7 @@ export class CityController {
     async getCities(@Res() response): Promise<any> {
         try {
             const getCities = await this.cityService.getCities();
-            return response.status(HttpStatus.CREATED).json({
+            return response.status(HttpStatus.OK).json({
                 status: true,
                 message: "List of all Cities ",
                 data: getCities
@@ -94,7 +94,7 @@ export class CityController {
     async deleteCityById(@Param('cityId') cityId: string, @Res() Response) {
         try {
             const deleteCityById = await this.cityService.deleteCity(cityId);
-            return Response.status(HttpStatus.CREATED).json({
+            return Response.status(HttpStatus.OK).json({
                 status: true,
                 message: "City deleted successfully",
                 data: {}

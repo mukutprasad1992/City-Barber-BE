@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from '../dto/login.dto';
 
@@ -7,7 +7,12 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
-  login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
-    return this.authService.login(loginDto);
+  login(@Body() loginDto: LoginDto,@Res() Response): Promise<{ token: string }> {
+    const login = this.authService.login(loginDto);
+    return Response.status(HttpStatus.OK).json({
+      status: true,
+      message: "Login successfully",
+      
+  });
   }
 }

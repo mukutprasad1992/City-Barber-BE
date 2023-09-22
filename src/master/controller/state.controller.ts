@@ -3,31 +3,49 @@ import { StateService } from "../services/state.service";
 import { State } from "../schemas/state.schema";
 
 @Controller('state')
-export class StateController{
+export class StateController {
 
     constructor(private readonly stateService: StateService) { }
 
 
     @Post('/create')
     async createState(@Res() response, @Body() state: State) {
-        
-        const createState = await this.stateService.createState(state);
-        //console.log(createUser)
-        return response.status(HttpStatus.CREATED).json({
-            status: true,
-            message: "State entered successfully",
-            data: createState
-        })
+        try {
+            const createState = await this.stateService.createState(state);
+            return response.status(HttpStatus.CREATED).json({
+                status: true,
+                message: "State entered successfully",
+                data: createState
+            })
+        }
+        catch (error) {
+            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: false,
+                message: "Error creating state",
+                error: error.message
+            });
+
+        }
     }
 
     @Get('/getAll')
-    async getAllState(@Res() response){
-     const   getAllState = await this.stateService.getAllState();
-     return response.status(HttpStatus.CREATED).json({
-        status: true,
-        message: "List of all state ",
-        data: getAllState
-    })
+    async getAllState(@Res() response) {
+        try {
+            const getAllState = await this.stateService.getAllState();
+            return response.status(HttpStatus.OK).json({
+                status: true,
+                message: "List of all state ",
+                data: getAllState
+            })
+        }
+        catch (error) {
+            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: false,
+                message: "Error in getting all stat",
+                error: error.message
+            });
+
+        }
     }
 
     @Get('/stateID:stateID')
@@ -51,24 +69,41 @@ export class StateController{
 
     @Delete(':stateId')
     async deleteStateById(@Param('stateId') stateId: string, @Res() Response) {
-        const deleteStateById =await this.stateService.deleteState(stateId);
-        return Response.status(HttpStatus.CREATED).json({
-            status: true,
-            message: "State deleted successfully",
-            data: {}
-        })
-        
+        try {
+            const deleteStateById = await this.stateService.deleteState(stateId);
+            return Response.status(HttpStatus.OK).json({
+                status: true,
+                message: "State deleted successfully",
+                data: {}
+            })
+
+        } catch (error) {
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: false,
+                message: "Error in deleting state",
+                error: error.message
+            });
+
+        }
     }
 
     @Put(':stateId')
     async putStateById(@Param('stateId') stateId: string, @Body() updateState: State, @Res() Response) {
-        const putStateId = await this.stateService.update(stateId, updateState);
-        return Response.status(HttpStatus.OK).json({
-            status: true,
-            message: "State updated successfully",
-            data: putStateId
-        });
+        try {
+            const putStateId = await this.stateService.update(stateId, updateState);
+            return Response.status(HttpStatus.OK).json({
+                status: true,
+                message: "State updated successfully",
+                data: putStateId
+            });
+        } catch (error) {
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                status: false,
+                message: "Error in updating state",
+                error: error.message
+            });
+        }
     }
-
 }
+
 

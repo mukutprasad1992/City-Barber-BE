@@ -2,7 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 export type SaloonDocument = Saloon & Document;
 @Schema()
-export class Saloon extends Document {
+export class Saloon {
     @Prop()
     saloonName: string;
     @Prop()
@@ -25,5 +25,17 @@ export class Saloon extends Document {
     GSTNumber: string;
     @Prop()
     documents: string[];
+
+    @Prop({ default: Date.now })
+    createdAt: Date;
+
+    @Prop({ default: Date.now })
+    updatedAt: Date;
+
+    @Prop()
+    createdBy: string;
+
+    @Prop()
+    updatedBy: string;
 }
 export const SaloonSchema = SchemaFactory.createForClass(Saloon);

@@ -48,11 +48,11 @@ export class SaloonController {
 
         }
     }
-    @Get('/getUser')
+    @Get('/getAll')
     async getUser(@Res() response) {
         try {
             const AllUsers = await this.saloonService.getAllUser();
-            return response.status(HttpStatus.CREATED).json({
+            return response.status(HttpStatus.OK).json({
                 status: true,
                 message: "Fetch all Users successfully",
                 data: AllUsers

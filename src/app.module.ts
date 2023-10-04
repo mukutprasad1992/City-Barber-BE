@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -10,6 +10,9 @@ import { CityModule } from './master/city.module';
 import { StateModule } from './master/state.module';
 import { StaffsModule } from './staffs/staffs.module';
 import { ServicesModule } from './saloonServices/Services.module';
+import { AppointmentModule } from './appointments/appointment.module';
+import { PaymentModule } from './payment/payment.module';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Module({
@@ -25,11 +28,13 @@ import { ServicesModule } from './saloonServices/Services.module';
     AuthModule,
     CityModule,
     StaffsModule,
+    AppointmentModule,
     ServicesModule,
     StateModule,
     SaloonModule,
-    UserModule],
+    UserModule,
+    PaymentModule],
   controllers: [],
-  providers: [FileUploadService],
+  providers: [FileUploadService,JwtService],
 })
-export class AppModule { }
+export class AppModule{ }

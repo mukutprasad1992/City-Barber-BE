@@ -11,6 +11,18 @@ export class Services extends Document {
     price: string;
     @Prop()
     duration: string;
+    
+    @Prop({ default: Date.now })
+    createdAt: Date;
+
+    @Prop({ default: Date.now })
+    updatedAt: Date;
+
+    @Prop()
+    createdBy: string;
+
+    @Prop()
+    updatedBy: string;
    
     
 }

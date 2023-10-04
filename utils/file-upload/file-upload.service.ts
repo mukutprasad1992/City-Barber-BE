@@ -22,10 +22,6 @@ export class FileUploadService {
                 file.mimetype,
             );
 
-
-
-
-
             uploadedFiles.push(s3Response.Location);
         }
         return uploadedFiles;

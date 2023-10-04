@@ -15,7 +15,7 @@ export class CityController {
             //console.log(createUser)
             return response.status(HttpStatus.CREATED).json({
                 status: true,
-                message: "State entered successfully",
+                message: "City entered successfully",
                 data: createCity
             })
         }

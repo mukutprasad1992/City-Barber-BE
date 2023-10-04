@@ -29,6 +29,7 @@
     "aws-sdk": "^2.1441.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "mongoose": "^7.4.2",

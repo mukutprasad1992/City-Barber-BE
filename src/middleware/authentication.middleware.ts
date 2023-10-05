@@ -1,4 +1,3 @@
-// middleware/authentication.middleware.ts
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -6,27 +5,19 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    // Simulated token (in a real app, this should come from the request headers)
-    const token = req.headers['authorization']; 
-    console.log(token)
+    const token = req.headers.authorization?.split(' ')[1]; 
 
     if (!token) {
-      return res.status(401).json({ message: 'Unauthorized' }) ;
-      
+      return res.status(401).json({ message: 'Token not provided' });
     }
-   
-    console.log('Decoded Token Header:', jwt.decode(token, { complete: true }).header);
-    console.log('Decoded Token Payload:', jwt.decode(token, { complete: true }).payload);
+
     try {
-
-      console.log("KEY =",process.env.JWT_SECRET)
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      console.info('decodedToken',decodedToken)
-
-      next(); // Proceed to the next middleware
+      req['user'] = decodedToken; // Attach the decoded token to the request object for further use
+      next();
     } catch (error) {
-      console.log(error)
-      return res.status(401).json({ message: 'Unauthorized' });
-    } 
+      return res.status(401).json({ message: 'Invalid token' }); 
+    }
   }
 }
+ 

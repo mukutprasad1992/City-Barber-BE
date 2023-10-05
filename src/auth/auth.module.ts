@@ -27,11 +27,11 @@ import { ResetPasswordController } from './controller/reset-password.controller'
           },
         };
       },
-    }),
+    }), 
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   controllers: [AuthController,ForgotPasswordController,ResetPasswordController],
   providers: [AuthService, JwtStrategy,ForgotPasswordService,EmailService,ResetPasswordService],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule,AuthService],
 })
 export class AuthModule {}

@@ -41,4 +41,8 @@ export class AuthService {
     throw new UnauthorizedException('Login faild',' '+ error);
   }
 }
+
+verifyJwt(jwt: string): Promise<any>{
+return this.jwtService.verifyAsync(jwt)
+}
 }

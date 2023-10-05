@@ -1,4 +1,4 @@
-import { Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +13,7 @@ import { ServicesModule } from './saloonServices/Services.module';
 import { AppointmentModule } from './appointments/appointment.module';
 import { PaymentModule } from './payment/payment.module';
 import { JwtService } from '@nestjs/jwt';
+import { AuthenticationMiddleware } from './middleware/authentication.middleware';
 
 
 @Module({
@@ -33,8 +34,21 @@ import { JwtService } from '@nestjs/jwt';
     StateModule,
     SaloonModule,
     UserModule,
-    PaymentModule],
+    PaymentModule], 
   controllers: [],
   providers: [FileUploadService,JwtService],
 })
-export class AppModule{ }
+export class AppModule implements NestModule   { 
+
+  configure(consumer: MiddlewareConsumer) {
+    // Apply the authentication middleware globally to all routes
+    consumer.apply(AuthenticationMiddleware).forRoutes('appointment');
+    consumer.apply(AuthenticationMiddleware).forRoutes('payment');
+    consumer.apply(AuthenticationMiddleware).forRoutes('city');
+    consumer.apply(AuthenticationMiddleware).forRoutes('state');
+    consumer.apply(AuthenticationMiddleware).forRoutes('saloon');
+    consumer.apply(AuthenticationMiddleware).forRoutes('services');
+    consumer.apply(AuthenticationMiddleware).forRoutes('staffs');
+    consumer.apply(AuthenticationMiddleware).forRoutes('users');
+  }
+}

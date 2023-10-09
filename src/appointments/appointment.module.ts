@@ -16,6 +16,7 @@ import { JwtStrategy } from 'utils/Token/jwt.strategy';
   ],
   controllers: [AppointmentController],
   providers: [ AppointmentService],
+  exports: [AppointmentService],
 })
 export class AppointmentModule {}
 

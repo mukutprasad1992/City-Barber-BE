@@ -2,13 +2,19 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Payment, PaymentDocument } from "../schema/payment.schema";
 import { Model } from "mongoose";
+import { AppointmentService } from "src/appointments/service/appointment.services";
 
 @Injectable()
 export class PaymentService {
 
-    constructor(@InjectModel(Payment.name) private paymentModel: Model<PaymentDocument>) { }
+    constructor(@InjectModel(Payment.name) private paymentModel: Model<PaymentDocument>,private appointmentService:AppointmentService) { }
 
     async createPayment(payment: Payment) {
+
+        const appointment = await this.appointmentService.findOne(payment.appointmentId);
+        if (!appointment) {
+          throw new Error('Invalid appointmentId. Appointment not found.');
+        }
         const createPayment = new this.paymentModel(payment)
         return createPayment.save()
     }

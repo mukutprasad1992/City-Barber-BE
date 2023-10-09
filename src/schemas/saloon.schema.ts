@@ -1,18 +1,31 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { IsNotEmpty } from 'class-validator';
 import { Document } from 'mongoose';
 export type SaloonDocument = Saloon & Document;
 @Schema()
 export class Saloon {
+
+    @IsNotEmpty()
     @Prop()
     saloonName: string;
+
+    @IsNotEmpty()
     @Prop()
     ownerName: string;
+
+    @IsNotEmpty()
     @Prop()
     email: string;
+
+    @IsNotEmpty()
     @Prop()
     phone: number;
+
+    @IsNotEmpty()
     @Prop()
     state: string;
+
+    @IsNotEmpty()
     @Prop()
     city: string;
     @Prop()
@@ -25,6 +38,14 @@ export class Saloon {
     GSTNumber: string;
     @Prop()
     documents: string[];
+
+    @IsNotEmpty()
+    @Prop()
+    latitude: number;
+    
+    @IsNotEmpty()
+    @Prop()
+    longitude: number;
 
     @Prop({ default: Date.now })
     createdAt: Date;

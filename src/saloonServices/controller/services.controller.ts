@@ -14,7 +14,7 @@ export class ServicesController {
         const createServices = await this.saloonServices.createServices(services);
         return response.status(HttpStatus.CREATED).json({
             status: true,
-            message: "State entered successfully",
+            message: "Service entered successfully",
             data: createServices
         })
     }catch (error) {

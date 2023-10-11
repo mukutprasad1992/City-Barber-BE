@@ -47,10 +47,10 @@ export class AppModule implements NestModule   {
     consumer.apply(AuthenticationMiddleware).forRoutes('city');
     consumer.apply(AuthenticationMiddleware).forRoutes('state');
     consumer.apply(AuthenticationMiddleware).forRoutes('saloon');
-    consumer.apply(AuthenticationMiddleware).forRoutes('services');
+    // consumer.apply(AuthenticationMiddleware).forRoutes('services');
     consumer.apply(AuthenticationMiddleware).forRoutes('staffs');
     consumer.apply(AuthenticationMiddleware).forRoutes('users/getAll');
-    consumer.apply(AuthenticationMiddleware).forRoutes('users/:userId');
+    // consumer.apply(AuthenticationMiddleware).forRoutes('users/:userId');
     consumer.apply(AuthenticationMiddleware).forRoutes('users/userID/:userId');
     consumer.apply(AuthenticationMiddleware).forRoutes('users/delete/:userId');
   }
